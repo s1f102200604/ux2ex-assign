@@ -25,11 +25,10 @@ fetch(url)
 
   function displayWeatherImage(weatherMain) {
     const weatherImageContainer = document.getElementById('weatherImage');
-    const imgFolderPath = 'img/';
-    const imageName = weatherMain.toLowerCase() + '.png';
-    const imageUrl = imgFolderPath + imageName;
     const weatherImage = document.createElement('img');
-    weatherImage.src = imageUrl;
+    const parentWidth = weatherImageContainer.parentElement.offsetWidth;
+    weatherImage.src = 'img/' + weatherMain.toLowerCase() + '.png';
+    weatherImage.style.width = parentWidth + 'px';
     weatherImage.alt = weatherMain;
     weatherImageContainer.innerHTML = '';
     weatherImageContainer.appendChild(weatherImage);
