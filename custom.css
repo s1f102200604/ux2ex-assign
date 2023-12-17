@@ -1,5 +1,23 @@
-#weatherImage {
-    width: fit-content;
+.child50 {
+    height: 50%;
+}
+
+.child25 {
+    height: 25%;
+}
+
+.child75 {
+    height: 75%;
+}
+
+.child2 {
+    flex: 1; 
+    max-width: 20%;
+}
+
+.child3 {
+    flex: 1;
+    max-width: 12.5%;
 }
 
 .custom-border {
