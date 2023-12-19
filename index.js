@@ -13,11 +13,26 @@ const city = 'Tokyo,jp';
 var list_num = Math.floor(new Date().getHours() / 3) - 1
 const apiUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 
-fetch(url)
-    .then(response => response.json())
-    .then((data) => {
-      fetchWeatherData();
-});
+const APIURL_now = 'https://api.openweathermap.org/data/2.5/weather'
+const URL_now = `${APIURL_now}?q=${city}&appid=${apiKey}`
+
+fetch(URL_now)
+.then(response => response.json())
+.then((data) => {
+    document.getElementById("name").innerHTML = data.name;
+    document.getElementById("temp").innerHTML = (data.main.temp - 273.2).toPrecision(3) + '℃';
+    document.getElementById("temp_max").innerHTML = (data.main.temp_max - 273.2).toPrecision(3) + '℃';
+    document.getElementById("temp_min").innerHTML = (data.main.temp_min - 273.2).toPrecision(3) + '℃';
+    document.getElementById("humidity").innerHTML = data.main.humidity + '%';
+    displayWeatherImage(data.weather[0].main); 
+    displayWeatherDesc(data.weather[0].icon, data.weather[0].description);//詳細天気
+    document.getElementById("sunrise").innerHTML = (new Date(data.sys.sunrise * 1000)).toLocaleTimeString(); // 日の出
+    document.getElementById("sunset").innerHTML = (new Date(data.sys.sunset * 1000)).toLocaleTimeString(); // 日の入り
+    document.getElementById("speed").innerHTML = data.wind.speed + 'm/s';//風速
+    convertWindToImage(data.wind.deg);//風向
+    document.getElementById("pressure").innerHTML = data.main.pressure + 'hPa'; // 大気圧
+    document.getElementById("clouds_amount").innerHTML = data.clouds.all + '%'; // 雲量
+  });
 
 function fetchWeatherData() {
   const time = Math.floor(Date.now() / 1000);
@@ -66,3 +81,16 @@ function convertWindToImage(degrees) {
   var imageUrl = 'deg_img/' + arrowImages[(index + 16) % 16];
   document.getElementById('deg').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
 }
+
+// JavaScriptを使用して子要素の合計幅を計算し、必要に応じて親要素にスクロールを有効にする
+document.addEventListener('DOMContentLoaded', function () {
+  const container = document.querySelector('.parent3');
+  const children = container.children;
+  let totalWidth = 0;
+  for (let i = 0; i < children.length; i++) {
+    totalWidth += children[i].offsetWidth;
+  }
+  if (totalWidth > container.offsetWidth) {
+    container.style.overflowX = 'scroll';
+  }
+});

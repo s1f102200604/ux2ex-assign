@@ -15,9 +15,16 @@
     max-width: 20%;
 }
 
+.parent3 {
+    width: 100%;
+    overflow-x: auto; /* 水平方向のオーバーフローに対してスクロールを有効にする */
+    white-space: nowrap; /* 子要素が横に並ぶようにする */
+}
+
 .child3 {
+    display: inline-block;
     flex: 1;
-    max-width: 12.5%;
+    width: 240px;
 }
 
 .custom-border {
