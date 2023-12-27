@@ -17,28 +17,18 @@
 
         <!-- ナビゲーションメニュー -->
         <div class="collapse navbar-collapse col-6" id="navbarNav">
-            <input class="form-control mr-sm-2" type="text" placeholder="都市名を検索" id="cityInput">
-            <button class="btn btn-outline-success my-2 my-sm-0 col-1" type="button" onclick="searchCity()">検索</button>
+            <input type="text" id="cityInput" placeholder="都市名を入力">
+            <button onclick="changeLocation()">天気予報を見る</button>
         </div>
     </nav>
 
     <div class="container">
         <div class="row">
-            <button class="child2 custom-border" onclick="switch_day(0)" id="btnDay1">1</button>
-            <button class="child2 custom-border" onclick="switch_day(1)" id="btnDay2">2</button>
-            <button class="child2 custom-border" onclick="switch_day(2)" id="btnDay3">3</button>
-            <button class="child2 custom-border" onclick="switch_day(3)" id="btnDay4">4</button>
-            <button class="child2 custom-border" onclick="switch_day(4)" id="btnDay5">5</button>
-        </div>
-        <div class="row parent3">
-            <button class="child3 custom-border" onclick="switch_3hour(0)" id="btnHour0">0</button>
-            <button class="child3 custom-border" onclick="switch_3hour(1)" id="btnHour3">3</button>
-            <button class="child3 custom-border" onclick="switch_3hour(2)" id="btnHour6">6</button>
-            <button class="child3 custom-border" onclick="switch_3hour(3)" id="btnHour9">9</button>
-            <button class="child3 custom-border" onclick="switch_3hour(4)" id="btnHour12">12</button>
-            <button class="child3 custom-border" onclick="switch_3hour(5)" id="btnHour15">15</button>
-            <button class="child3 custom-border" onclick="switch_3hour(6)" id="btnHour18">18</button>
-            <button class="child3 custom-border" onclick="switch_3hour(7)" id="btnHour21">21</button>
+            <button class="child2 custom-border" onclick="switch_day(0)" id="btnDay1"></button>
+            <button class="child2 custom-border" onclick="switch_day(1)" id="btnDay2"></button>
+            <button class="child2 custom-border" onclick="switch_day(2)" id="btnDay3"></button>
+            <button class="child2 custom-border" onclick="switch_day(3)" id="btnDay4"></button>
+            <button class="child2 custom-border" onclick="switch_day(4)" id="btnDay5"></button>
         </div>
         <div class="row">
             <div class="container col-6">

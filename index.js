@@ -1,96 +1,118 @@
-function switch_day(day) {
-  list_num = (Math.floor(new Date().getHours() / 3) - 1) + (8 * day);
-  fetchWeatherData();
-}
-
-function switch_3hour(hour) {
-  list_num = (Math.floor(new Date().getHours() / 3) - 1) + hour;
-  fetchWeatherData();
-}
-
 const apiKey = 'b5f2bcad1a3f31d97a7c4f6c2ed1c67e';
-const city = 'Tokyo,jp';
-var list_num = Math.floor(new Date().getHours() / 3) - 1
-const apiUrl = 'https://api.openweathermap.org/data/2.5/forecast';
+let lat = 35.681236; 
+let lon = 139.767125; 
+let currentLocation = 'Tokyo'; 
+let list_num = 0;
+let currentWeatherData;
 
-const APIURL_now = 'https://api.openweathermap.org/data/2.5/weather'
-const URL_now = `${APIURL_now}?q=${city}&appid=${apiKey}`
 
-fetch(URL_now)
-.then(response => response.json())
-.then((data) => {
-    document.getElementById("name").innerHTML = data.name;
-    document.getElementById("temp").innerHTML = (data.main.temp - 273.2).toPrecision(3) + '℃';
-    document.getElementById("temp_max").innerHTML = (data.main.temp_max - 273.2).toPrecision(3) + '℃';
-    document.getElementById("temp_min").innerHTML = (data.main.temp_min - 273.2).toPrecision(3) + '℃';
-    document.getElementById("humidity").innerHTML = data.main.humidity + '%';
-    displayWeatherImage(data.weather[0].main); 
-    displayWeatherDesc(data.weather[0].icon, data.weather[0].description);//詳細天気
-    document.getElementById("sunrise").innerHTML = (new Date(data.sys.sunrise * 1000)).toLocaleTimeString(); // 日の出
-    document.getElementById("sunset").innerHTML = (new Date(data.sys.sunset * 1000)).toLocaleTimeString(); // 日の入り
-    document.getElementById("speed").innerHTML = data.wind.speed + 'm/s';//風速
-    convertWindToImage(data.wind.deg);//風向
-    document.getElementById("pressure").innerHTML = data.main.pressure + 'hPa'; // 大気圧
-    document.getElementById("clouds_amount").innerHTML = data.clouds.all + '%'; // 雲量
-  });
+function getWeather() {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&lang=ja&appid=${apiKey}`;
 
-function fetchWeatherData() {
-  const time = Math.floor(Date.now() / 1000);
-  const url = `${apiUrl}?q=${city}&appid=${apiKey}&dt=${time}`;
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then((data) => {
+            currentDate = new Date();
+            WeatherData = data;
+            updateSiteInfo();
+        });
+}
 
-  fetch(url)
-    .then(response => response.json())
-    .then((data) => {
-      document.getElementById("name").innerHTML = data.city.name;
-      document.getElementById("temp").innerHTML = (data.list[list_num].main.temp - 273.2).toPrecision(3) + '℃';
-      document.getElementById("temp_max").innerHTML = (data.list[list_num].main.temp_max - 273.2).toPrecision(3) + '℃';
-      document.getElementById("temp_min").innerHTML = (data.list[list_num].main.temp_min - 273.2).toPrecision(3) + '℃';
-      document.getElementById("humidity").innerHTML = data.list[list_num].main.humidity + '%';
-      displayWeatherImage(data.list[list_num].weather[0].main);
-      displayWeatherDesc(data.list[list_num].weather[0].icon, data.list[list_num].weather[0].description); //詳細天気
-      document.getElementById("sunrise").innerHTML = (new Date(data.city.sunrise * 1000)).toLocaleTimeString(); // 日の出
-      document.getElementById("sunset").innerHTML = (new Date(data.city.sunset * 1000)).toLocaleTimeString(); // 日の入り
-      document.getElementById("speed").innerHTML = data.list[list_num].wind.speed + 'm/s'; //風速
-      convertWindToImage(data.list[list_num].wind.deg); //風向
-      document.getElementById("pressure").innerHTML = data.list[list_num].main.pressure + 'hPa'; // 大気圧
-      document.getElementById("clouds_amount").innerHTML = data.list[list_num].clouds.all + '%'; // 雲量
-      console.log(Math.floor(Date.now() / 1000));
-    })
-};
+function getLatLonFromLocation(location) {
+  const geocodingApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=AIzaSyAYSeZRkkIEUkvEc1Ut7UYs7q0lLRZds94`;
 
+  try {
+    const response = fetch(geocodingApiUrl);
+    const data = response.json();
+
+    if (data.status === 'OK' && data.results.length > 0) {
+      const { lat, lng } = data.results[0].geometry.location;
+      return { lat, lon: lng };
+    } else {
+      console.error(`Failed to get coordinates for location: ${location}`);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching geocoding data:', error);
+    return null;
+  }
+}
+
+// 地域を変更する関数
+function changeLocation(newLocation) {
+  currentLocation = newLocation;
+  const { lat: newLat, lon: newLon } = getLatLonFromLocation(newLocation);
+  
+  if (newLat && newLon) {
+    lat = newLat;
+    lon = newLon;
+    getWeather();
+  } else {
+    console.error(`Failed to get coordinates for location: ${newLocation}`);
+  }
+}
+
+function switch_day(newDateTime) {
+  list_num = newDateTime;
+  updateSiteInfo();
+}
+
+function updateSiteInfo() {
+  document.getElementById("name").innerHTML = currentLocation;
+  document.getElementById("temp").innerHTML = (WeatherData.daily[list_num].temp.day).toPrecision(3) + '℃';
+  document.getElementById("temp_max").innerHTML = (WeatherData.daily[list_num].temp.max).toPrecision(3) + '℃';
+  document.getElementById("temp_min").innerHTML = (WeatherData.daily[list_num].temp.min).toPrecision(3) + '℃';
+  document.getElementById("humidity").innerHTML = WeatherData.daily[list_num].humidity + '%';
+  displayWeatherImage(WeatherData.daily[list_num].weather[0].main);
+  displayWeatherDesc(WeatherData.daily[list_num].weather[0].icon, WeatherData.daily[list_num].weather[0].description); //詳細天気
+  document.getElementById("sunrise").innerHTML = (new Date(WeatherData.daily[list_num].sunrise * 1000)).toLocaleTimeString(); // 日の出
+  document.getElementById("sunset").innerHTML = (new Date(WeatherData.daily[list_num].sunset * 1000)).toLocaleTimeString(); // 日の入り
+  document.getElementById("speed").innerHTML = WeatherData.daily[list_num].wind_speed + 'm/s'; //風速
+  convertWindToImage(WeatherData.daily[list_num].wind_deg); //風向
+  document.getElementById("pressure").innerHTML = WeatherData.daily[list_num].pressure + 'hPa'; // 大気圧
+  document.getElementById("clouds_amount").innerHTML = WeatherData.daily[list_num].clouds + '%'; // 雲量
+}
+
+// 初期化時に現在の天気を取得
+getWeather();
 
 function displayWeatherDesc(icon, desc) {
-  var imageUrl = 'https://openweathermap.org/img/wn/' + icon + '@2x.png';
+  let imageUrl = 'https://openweathermap.org/img/wn/' + icon + '@2x.png';
   document.getElementById('description').innerHTML = desc + "<img src='" + imageUrl + "' alt='NoImage'>";
 }
 
 function displayWeatherImage(weatherMain) {
-  var imageUrl = 'weather_img/' + weatherMain + '.png';
+  let imageUrl = 'weather_img/' + weatherMain + '.png';
   document.getElementById('weatherImage').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
 }
 
-// 風向を度数から画像に変換する関数
 function convertWindToImage(degrees) {
-  var arrowImages = [
+  let arrowImages = [
     "arrow-n.png", "arrow-nne.png", "arrow-ne.png", "arrow-ene.png",
     "arrow-e.png", "arrow-ese.png", "arrow-se.png", "arrow-sse.png",
     "arrow-s.png", "arrow-ssw.png", "arrow-sw.png", "arrow-wsw.png",
     "arrow-w.png", "arrow-wnw.png", "arrow-nw.png", "arrow-nnw.png"
   ];
-  var index = Math.round((degrees % 360) / 22.5);
-  var imageUrl = 'deg_img/' + arrowImages[(index + 16) % 16];
+  let index = Math.round((degrees % 360) / 22.5);
+  let imageUrl = 'deg_img/' + arrowImages[(index + 16) % 16];
   document.getElementById('deg').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
 }
 
-// JavaScriptを使用して子要素の合計幅を計算し、必要に応じて親要素にスクロールを有効にする
 document.addEventListener('DOMContentLoaded', function () {
-  const container = document.querySelector('.parent3');
-  const children = container.children;
-  let totalWidth = 0;
-  for (let i = 0; i < children.length; i++) {
-    totalWidth += children[i].offsetWidth;
-  }
-  if (totalWidth > container.offsetWidth) {
-    container.style.overflowX = 'scroll';
-  }
+
+  const day1 = new Date();
+  const day2 = new Date();
+  day2.setDate(day1.getDate() + 1)
+  const day3 = new Date();
+  day3.setDate(day1.getDate() + 2)
+  const day4 = new Date();
+  day4.setDate(day1.getDate() + 3)
+  const day5 = new Date();
+  day5.setDate(day1.getDate() + 4)
+
+  document.getElementById('btnDay1').textContent = day1.toLocaleDateString('ja-JP', {year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long',}).replace(/(\d+)\/(\d+)\/(\d+) (.+)/, '$1 / $2 ($4)');
+  document.getElementById('btnDay2').textContent = day2.toLocaleDateString('ja-JP', {year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long',}).replace(/(\d+)\/(\d+)\/(\d+) (.+)/, '$1 / $2 ($4)');
+  document.getElementById('btnDay3').textContent = day3.toLocaleDateString('ja-JP', {year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long',}).replace(/(\d+)\/(\d+)\/(\d+) (.+)/, '$1 / $2 ($4)');
+  document.getElementById('btnDay4').textContent = day4.toLocaleDateString('ja-JP', {year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long',}).replace(/(\d+)\/(\d+)\/(\d+) (.+)/, '$1 / $2 ($4)');
+  document.getElementById('btnDay5').textContent = day5.toLocaleDateString('ja-JP', {year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long',}).replace(/(\d+)\/(\d+)\/(\d+) (.+)/, '$1 / $2 ($4)');
 });
