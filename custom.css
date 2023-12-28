@@ -11,18 +11,18 @@
 }
 
 .child2 {
-    flex: 1; 
+    flex: 1;
     max-width: 20%;
 }
 
-
 .custom-border {
-    border: 3px solid #000000;
+    background-color: #ffffff;
+    border: 2px solid #009ACD;
+    border-radius:20px;
 }
 
 .custom-primary {
     color: #000000;
-    background-color: #ffffff;
     font-size: 30px;
     font-family: serif;
 }
