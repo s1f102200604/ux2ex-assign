@@ -64,7 +64,7 @@ function displayWeatherDesc(icon, desc) {
 }
 
 function displayWeatherImage(weatherMain) {
-  let imageUrl = 'weather_img/' + weatherMain + '.png';
+  let imageUrl = '220060_weather_img/' + weatherMain + '.png';
   document.getElementById('weatherImage').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
 }
 
@@ -76,7 +76,7 @@ function convertWindToImage(degrees) {
     "arrow-w.png", "arrow-wnw.png", "arrow-nw.png", "arrow-nnw.png"
   ];
   let index = Math.round((degrees % 360) / 22.5);
-  let imageUrl = 'deg_img/' + arrowImages[(index + 16) % 16];
+  let imageUrl = '220060_deg_img/' + arrowImages[(index + 16) % 16];
   document.getElementById('deg').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
 }
 
