@@ -4,6 +4,7 @@ let lon = 139.767125;
 let currentLocation = 'Tokyo'; 
 let list_num = 0;
 let currentWeatherData;
+const googleapikey = 'AIzaSyDRmb1gRM0pb0-VHN8cSSUPE7s10cY4y-U';
 
 
 function getWeather() {
@@ -18,39 +19,20 @@ function getWeather() {
         });
 }
 
-function getLatLonFromLocation(location) {
-  const geocodingApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=AIzaSyAYSeZRkkIEUkvEc1Ut7UYs7q0lLRZds94`;
+function changeLocation() {
+  const locationInput = document.getElementById('cityInput').value;
+  const geo_apiKey = 'AIzaSyDRmb1gRM0pb0-VHN8cSSUPE7s10cY4y-U';
+  const geocodingApiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(locationInput) + '&key=' + geo_apiKey ;
 
-  try {
-    const response = fetch(geocodingApiUrl);
-    const data = response.json();
-
-    if (data.status === 'OK' && data.results.length > 0) {
-      const { lat, lng } = data.results[0].geometry.location;
-      return { lat, lon: lng };
-    } else {
-      console.error(`Failed to get coordinates for location: ${location}`);
-      return null;
-    }
-  } catch (error) {
-    console.error('Error fetching geocoding data:', error);
-    return null;
+  fetch(geocodingApiUrl)
+    .then(response => response.json())
+    .then((data) => {
+      lat = data.results[0].geometry.location.lat;
+      lon = data.results[0].geometry.location.lng;
+      updateSiteInfo();
+    });
   }
-}
 
-// 地域を変更する関数
-function changeLocation(newLocation) {
-  currentLocation = newLocation;
-  const { lat: newLat, lon: newLon } = getLatLonFromLocation(newLocation);
-  
-  if (newLat && newLon) {
-    lat = newLat;
-    lon = newLon;
-    getWeather();
-  } else {
-    console.error(`Failed to get coordinates for location: ${newLocation}`);
-  }
-}
 
 function switch_day(newDateTime) {
   list_num = newDateTime;
