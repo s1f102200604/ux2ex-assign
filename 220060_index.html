@@ -12,13 +12,61 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <a class="navbar-brand" href="#">Weather Forecast</a>
 
         <!-- ナビゲーションメニュー -->
         <div class="collapse navbar-collapse col-6" id="navbarNav">
-            <input type="text" id="cityInput" placeholder="都市名を入力">
-            <button onclick="changeLocation()">天気予報を見る</button>
+            <label for="selectOptions">都道府県名：</label>
+            <select id="selectOptions" onchange="changeLocation()">
+                <option value="prefecture1">北海道</option>
+                <option value="prefecture2">青森県</option>
+                <option value="prefecture3">岩手県</option>
+                <option value="prefecture4">宮城県</option>
+                <option value="prefecture5">秋田県</option>
+                <option value="prefecture6">山形県</option>
+                <option value="prefecture7">福島県</option>
+                <option value="prefecture8">茨城県</option>
+                <option value="prefecture9">栃木県</option>
+                <option value="prefecture10">群馬県</option>
+                <option value="prefecture11">埼玉県</option>
+                <option value="prefecture12">千葉県</option>
+                <option value="prefecture13">東京都</option>
+                <option value="prefecture14">神奈川県</option>
+                <option value="prefecture15">新潟県</option>
+                <option value="prefecture16">富山県</option>
+                <option value="prefecture17">石川県</option>
+                <option value="prefecture18">福井県</option>
+                <option value="prefecture19">山梨県</option>
+                <option value="prefecture20">長野県</option>
+                <option value="prefecture21">岐阜県</option>
+                <option value="prefecture22">静岡県</option>
+                <option value="prefecture23">愛知県</option>
+                <option value="prefecture24">三重県</option>
+                <option value="prefecture25">滋賀県</option>
+                <option value="prefecture26">京都府</option>
+                <option value="prefecture27">大阪府</option>
+                <option value="prefecture28">兵庫県</option>
+                <option value="prefecture29">奈良県</option>
+                <option value="prefecture30">和歌山県</option>
+                <option value="prefecture31">鳥取県</option>
+                <option value="prefecture32">島根県</option>
+                <option value="prefecture33">岡山県</option>
+                <option value="prefecture34">広島県</option>
+                <option value="prefecture35">山口県</option>
+                <option value="prefecture36">徳島県</option>
+                <option value="prefecture37">香川県</option>
+                <option value="prefecture38">愛媛県</option>
+                <option value="prefecture39">高知県</option>
+                <option value="prefecture40">福岡県</option>
+                <option value="prefecture41">佐賀県</option>
+                <option value="prefecture42">長崎県</option>
+                <option value="prefecture43">熊本県</option>
+                <option value="prefecture44">大分県</option>
+                <option value="prefecture45">宮崎県</option>
+                <option value="prefecture46">鹿児島県</option>
+                <option value="prefecture47">沖縄県</option>
+            </select>
         </div>
     </nav>
 
@@ -32,31 +80,47 @@
         </div>
         <div class="row">
             <div class="container col-12 col-md-6">
-                <div class="row custom-border child25">都市名<p class="custom-primary text-center" id="name"></p></div>
-                <div class="row custom-border child75"><div id="weatherImage" class="text-center"></div></div>
-            </div> 
-            <div class="container col-6 col-md-3">
-                <div class="row custom-border child50">現在の気温<p class="custom-primary text-center" id="temp"></p></div>
-                <div class="row custom-border child50">湿度<p class="custom-primary text-center" id="humidity"></p></div>
+                <div class="row custom-border child25">都市名<p class="custom-primary text-center" id="name"></p>
+                </div>
+                <div class="row custom-border child75">
+                    <div id="weatherImage" class="text-center"></div>
+                </div>
             </div>
             <div class="container col-6 col-md-3">
-                <div class="row custom-border child50">最高気温<p class="custom-primary text-center" id="temp_max"></p></div>
-                <div class="row custom-border child50">最低気温<p class="custom-primary text-center" id="temp_min"></p></div>
+                <div class="row custom-border child50">現在の気温<p class="custom-primary text-center" id="temp"></p>
+                </div>
+                <div class="row custom-border child50">湿度<p class="custom-primary text-center" id="humidity"></p>
+                </div>
+            </div>
+            <div class="container col-6 col-md-3">
+                <div class="row custom-border child50">最高気温<p class="custom-primary text-center" id="temp_max"></p>
+                </div>
+                <div class="row custom-border child50">最低気温<p class="custom-primary text-center" id="temp_min"></p>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col custom-border">天気の詳細<p class="custom-primary text-center" id="description"></p></div>
-            <div class="col custom-border">日の出<p class="custom-primary text-center" id="sunrise"></p></div>
-            <div class="col custom-border">日の入り<p class="custom-primary text-center" id="sunset"></p></div>
+            <div class="col custom-border">天気の詳細<p class="custom-primary text-center" id="description"></p>
+            </div>
+            <div class="col custom-border">日の出<p class="custom-primary text-center" id="sunrise"></p>
+            </div>
+            <div class="col custom-border">日の入り<p class="custom-primary text-center" id="sunset"></p>
+            </div>
         </div>
         <div class="row">
-            <div class="col-6 col-md-3 custom-border">風速<p class="custom-primary text-center" id="speed"></p></div>
-            <div class="col-6 col-md-3 custom-border">風向<p class="custom-primary text-center" id="deg"></p></div>
-            <div class="col-6 col-md-3 custom-border">大気圧<p class="custom-primary text-center" id="pressure"></p></div>
-            <div class="col-6 col-md-3 custom-border">雲量<p class="custom-primary text-center" id="clouds_amount"></p></div>
+            <div class="col-6 col-md-3 custom-border">風速<p class="custom-primary text-center" id="speed"></p>
+            </div>
+            <div class="col-6 col-md-3 custom-border">風向<p class="custom-primary text-center" id="deg"></p>
+            </div>
+            <div class="col-6 col-md-3 custom-border">大気圧<p class="custom-primary text-center" id="pressure"></p>
+            </div>
+            <div class="col-6 col-md-3 custom-border">雲量<p class="custom-primary text-center" id="clouds_amount"></p>
+            </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
