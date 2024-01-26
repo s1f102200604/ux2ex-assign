@@ -3,6 +3,10 @@
     max-width: 20%;
 }
 
+.temp {
+    font-size: 50px;
+}
+
 .parent-container {
     width: 100%;
     display: flex;
@@ -25,4 +29,12 @@
     color: #000000;
     font-size: 30px;
     font-family: serif;
+}
+
+.custom-3hour {
+    height: 10%;
+    font-size: 15px;
+    font-family: serif;
+    padding: 10px;
+    border-bottom: 1px  solid #000000;
 }

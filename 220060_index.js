@@ -219,7 +219,7 @@ function switch_day(newDateTime) {
 
 function updateSiteInfo() {
   displayWeatherDesc(WeatherData.daily[daily_num].weather[0].icon, WeatherData.daily[daily_num].weather[0].description); //詳細天気
-  document.getElementById("temp").innerHTML = Math.ceil(WeatherData.daily[daily_num].temp.day) + '℃';
+  document.getElementById("temp").innerHTML = '<span class="temp">' + Math.ceil(WeatherData.daily[daily_num].temp.day) + '</span>℃';
   document.getElementById("humidity").innerHTML = WeatherData.daily[daily_num].humidity + '%';
   document.getElementById("temp_max").innerHTML = Math.ceil(WeatherData.daily[daily_num].temp.max) + '℃';
   document.getElementById("temp_min").innerHTML = Math.ceil(WeatherData.daily[daily_num].temp.min) + '℃';
@@ -228,14 +228,22 @@ function updateSiteInfo() {
   convertWindToImage(WeatherData.daily[daily_num].wind_deg); //風向
   document.getElementById("pressure").innerHTML = WeatherData.daily[daily_num].pressure + 'hPa'; // 大気圧
   document.getElementById("clouds_amount").innerHTML = WeatherData.daily[daily_num].clouds + '%'; // 雲量
-  displayHourlyWeatherDesc(WeatherData.hourly[0].weather[0].icon, WeatherData.hourly[0].weather[0].description, 1);
-  displayHourlyWeatherDesc(WeatherData.hourly[3].weather[0].icon, WeatherData.hourly[3].weather[0].description, 2);
-  displayHourlyWeatherDesc(WeatherData.hourly[6].weather[0].icon, WeatherData.hourly[6].weather[0].description, 3);
-  displayHourlyWeatherDesc(WeatherData.hourly[9].weather[0].icon, WeatherData.hourly[9].weather[0].description, 4);
-  displayHourlyWeatherDesc(WeatherData.hourly[12].weather[0].icon, WeatherData.hourly[12].weather[0].description, 5);
-  displayHourlyWeatherDesc(WeatherData.hourly[15].weather[0].icon, WeatherData.hourly[15].weather[0].description, 6);
-  displayHourlyWeatherDesc(WeatherData.hourly[18].weather[0].icon, WeatherData.hourly[18].weather[0].description, 7);
-  displayHourlyWeatherDesc(WeatherData.hourly[21].weather[0].icon, WeatherData.hourly[21].weather[0].description, 8);
+  displayHourlyWeatherDesc(WeatherData.hourly[0].weather[0].description, 1);
+  document.getElementById("temp1").innerHTML = Math.ceil(WeatherData.hourly[0].temp) + '℃';
+  displayHourlyWeatherDesc(WeatherData.hourly[3].weather[0].description, 2);
+  document.getElementById("temp2").innerHTML = Math.ceil(WeatherData.hourly[3].temp) + '℃';
+  displayHourlyWeatherDesc(WeatherData.hourly[6].weather[0].description, 3);
+  document.getElementById("temp3").innerHTML = Math.ceil(WeatherData.hourly[6].temp) + '℃';
+  displayHourlyWeatherDesc(WeatherData.hourly[9].weather[0].description, 4);
+  document.getElementById("temp4").innerHTML = Math.ceil(WeatherData.hourly[9].temp) + '℃';
+  displayHourlyWeatherDesc(WeatherData.hourly[12].weather[0].description, 5);
+  document.getElementById("temp5").innerHTML = Math.ceil(WeatherData.hourly[12].temp) + '℃';
+  displayHourlyWeatherDesc(WeatherData.hourly[15].weather[0].description, 6);
+  document.getElementById("temp6").innerHTML = Math.ceil(WeatherData.hourly[15].temp) + '℃';
+  displayHourlyWeatherDesc(WeatherData.hourly[18].weather[0].description, 7);
+  document.getElementById("temp7").innerHTML = Math.ceil(WeatherData.hourly[18].temp) + '℃';
+  displayHourlyWeatherDesc(WeatherData.hourly[21].weather[0].description, 8);
+  document.getElementById("temp8").innerHTML = Math.ceil(WeatherData.hourly[21].temp) + '℃';
 }
 
 // 初期化時に現在の天気を取得
@@ -251,10 +259,9 @@ function displayWeatherImage(weatherMain) {
   document.getElementById('weatherImage').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
 }
 
-function displayHourlyWeatherDesc(icon, desc, i) {
-  let imageUrl = 'https://openweathermap.org/img/wn/' + icon + '@2x.png';
+function displayHourlyWeatherDesc(desc, i) {
   let id = 'weather' + String(i)
-  document.getElementById(id).innerHTML = desc + "<img src='" + imageUrl + "' alt='NoImage'>";
+  document.getElementById(id).innerHTML = desc;
 }
 
 function convertWindToImage(degrees) {
