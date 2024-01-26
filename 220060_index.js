@@ -2,7 +2,7 @@ const apiKey = 'b5f2bcad1a3f31d97a7c4f6c2ed1c67e';
 let lat = 35.681236;
 let lon = 139.767125;
 let currentLocation = '東京都';
-let list_num = 0;
+let daily_num = 0;
 let currentWeatherData;
 
 function getWeather() {
@@ -213,24 +213,29 @@ function changeLocation() {
 }
 
 function switch_day(newDateTime) {
-  list_num = newDateTime;
+  daily_num = newDateTime;
   updateSiteInfo();
 }
 
 function updateSiteInfo() {
-  document.getElementById("name").innerHTML = currentLocation;
-  document.getElementById("temp").innerHTML = (WeatherData.daily[list_num].temp.day).toPrecision(3) + '℃';
-  document.getElementById("temp_max").innerHTML = (WeatherData.daily[list_num].temp.max).toPrecision(3) + '℃';
-  document.getElementById("temp_min").innerHTML = (WeatherData.daily[list_num].temp.min).toPrecision(3) + '℃';
-  document.getElementById("humidity").innerHTML = WeatherData.daily[list_num].humidity + '%';
-  displayWeatherImage(WeatherData.daily[list_num].weather[0].main);
-  displayWeatherDesc(WeatherData.daily[list_num].weather[0].icon, WeatherData.daily[list_num].weather[0].description); //詳細天気
-  document.getElementById("sunrise").innerHTML = (new Date(WeatherData.daily[list_num].sunrise * 1000)).toLocaleTimeString(); // 日の出
-  document.getElementById("sunset").innerHTML = (new Date(WeatherData.daily[list_num].sunset * 1000)).toLocaleTimeString(); // 日の入り
-  document.getElementById("speed").innerHTML = WeatherData.daily[list_num].wind_speed + 'm/s'; //風速
-  convertWindToImage(WeatherData.daily[list_num].wind_deg); //風向
-  document.getElementById("pressure").innerHTML = WeatherData.daily[list_num].pressure + 'hPa'; // 大気圧
-  document.getElementById("clouds_amount").innerHTML = WeatherData.daily[list_num].clouds + '%'; // 雲量
+  displayWeatherDesc(WeatherData.daily[daily_num].weather[0].icon, WeatherData.daily[daily_num].weather[0].description); //詳細天気
+  document.getElementById("temp").innerHTML = Math.ceil(WeatherData.daily[daily_num].temp.day) + '℃';
+  document.getElementById("humidity").innerHTML = WeatherData.daily[daily_num].humidity + '%';
+  document.getElementById("temp_max").innerHTML = Math.ceil(WeatherData.daily[daily_num].temp.max) + '℃';
+  document.getElementById("temp_min").innerHTML = Math.ceil(WeatherData.daily[daily_num].temp.min) + '℃';
+  document.getElementById("pop").innerHTML = Math.ceil(WeatherData.daily[daily_num].pop) + '%';
+  document.getElementById("speed").innerHTML = Math.ceil(WeatherData.daily[daily_num].wind_speed) + 'm/s'; //風速
+  convertWindToImage(WeatherData.daily[daily_num].wind_deg); //風向
+  document.getElementById("pressure").innerHTML = WeatherData.daily[daily_num].pressure + 'hPa'; // 大気圧
+  document.getElementById("clouds_amount").innerHTML = WeatherData.daily[daily_num].clouds + '%'; // 雲量
+  displayHourlyWeatherDesc(WeatherData.hourly[0].weather[0].icon, WeatherData.hourly[0].weather[0].description, 1);
+  displayHourlyWeatherDesc(WeatherData.hourly[3].weather[0].icon, WeatherData.hourly[3].weather[0].description, 2);
+  displayHourlyWeatherDesc(WeatherData.hourly[6].weather[0].icon, WeatherData.hourly[6].weather[0].description, 3);
+  displayHourlyWeatherDesc(WeatherData.hourly[9].weather[0].icon, WeatherData.hourly[9].weather[0].description, 4);
+  displayHourlyWeatherDesc(WeatherData.hourly[12].weather[0].icon, WeatherData.hourly[12].weather[0].description, 5);
+  displayHourlyWeatherDesc(WeatherData.hourly[15].weather[0].icon, WeatherData.hourly[15].weather[0].description, 6);
+  displayHourlyWeatherDesc(WeatherData.hourly[18].weather[0].icon, WeatherData.hourly[18].weather[0].description, 7);
+  displayHourlyWeatherDesc(WeatherData.hourly[21].weather[0].icon, WeatherData.hourly[21].weather[0].description, 8);
 }
 
 // 初期化時に現在の天気を取得
@@ -246,6 +251,12 @@ function displayWeatherImage(weatherMain) {
   document.getElementById('weatherImage').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
 }
 
+function displayHourlyWeatherDesc(icon, desc, i) {
+  let imageUrl = 'https://openweathermap.org/img/wn/' + icon + '@2x.png';
+  let id = 'weather' + String(i)
+  document.getElementById(id).innerHTML = desc + "<img src='" + imageUrl + "' alt='NoImage'>";
+}
+
 function convertWindToImage(degrees) {
   let arrowImages = [
     "arrow-n.png", "arrow-nne.png", "arrow-ne.png", "arrow-ene.png",
@@ -255,7 +266,7 @@ function convertWindToImage(degrees) {
   ];
   let index = Math.round((degrees % 360) / 22.5);
   let imageUrl = '220060_deg_img/' + arrowImages[(index + 16) % 16];
-  document.getElementById('deg').innerHTML = "<img src='" + imageUrl + "' alt='NoImage'>";
+  document.getElementById('deg').innerHTML = "<img class='responsive-image' src='" + imageUrl + "' alt='NoImage'>";
 }
 
 document.addEventListener('DOMContentLoaded', function () {

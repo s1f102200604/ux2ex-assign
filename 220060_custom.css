@@ -1,24 +1,24 @@
-.child50 {
-    height: 50%;
-}
-
-.child25 {
-    height: 25%;
-}
-
-.child75 {
-    height: 75%;
-}
-
 .child2 {
     flex: 1;
     max-width: 20%;
 }
 
+.parent-container {
+    width: 100%;
+    display: flex;
+    margin: 10px; 
+}
+
 .custom-border {
-    background-color: #ffffff;
-    border: 2px solid #009ACD;
+    background-color: #FFFFFF;
+    border: 10px solid #BFD0F4;
     border-radius:20px;
+}
+
+.custom-box {
+    flex: 1;
+    margin: 10px; 
+    box-sizing: border-box; 
 }
 
 .custom-primary {
